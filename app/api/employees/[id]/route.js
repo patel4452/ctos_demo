@@ -1,0 +1,23 @@
+import { NextResponse } from "next/server";
+import connectMongoDB from "../../../../libs/mongodb";
+import Employee from "../../../../models/employee";
+
+export async function PUT(request, { params }) {
+  const { id } = params;
+  const {
+    newEmail: email,
+    newFullname: fullname,
+    newSalary: salary,
+    newAvatar: avatar,
+  } = await request.json();
+  await connectMongoDB;
+  await Employee.findByIdAndUpdate(id, { email, fullname, salary, avatar });
+  return NextResponse.json({ message: "Employee Updated" }, { status: 200 });
+}
+
+export async function GET(request, { params }) {
+  const { id } = params;
+  await connectMongoDB;
+  await Employee.findOne({ _id: id });
+  return NextResponse.json({ employee }, { status: 200 });
+}
