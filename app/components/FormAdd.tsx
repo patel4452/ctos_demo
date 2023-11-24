@@ -21,17 +21,36 @@ export default function FormAdd() {
 
   const router = useRouter();
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    const raw_avatar = data.avatar[0];
+    const formData = new FormData();
+    formData.append("file", raw_avatar);
+    formData.append("upload_preset", "ctosfileupload");
+    const uploadResponse = await fetch(
+      "https://api.cloudinary.com/v1_1/ddg9aginh/image/upload",
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+    const uploadedImageData = await uploadResponse.json();
+    const imageUrl = uploadedImageData.secure_url;
+    console.log(imageUrl);
+    data.avatar = imageUrl;
     console.log(JSON.stringify(data));
     try {
-      await fetch("http://localhost:3000/api/employees", {
+      const res = await fetch("http://localhost:3000/api/employees", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       });
-      reset;
-      router.push("/");
+      if (res.ok) {
+        reset();
+        router.push("/");
+      } else {
+        throw new Error("Employee not Added");
+      }
     } catch (err) {
       console.log(err);
     }
