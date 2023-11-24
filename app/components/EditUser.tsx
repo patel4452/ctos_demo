@@ -7,30 +7,32 @@ interface IFormInput {
   fullname: string;
   salary: number;
   avatar: string;
-  id: Number;
+  id: number;
 }
-export default function EditUser({
-  id,
-  fullname,
-  salary,
-  email,
-  avatar,
-}: IFormInput) {
+type Data = {
+  id: number;
+  email: string;
+  fullname: string;
+  salary: number;
+  avatar: string;
+};
+export default function EditUser({ id, fullname, salary, email, avatar }) {
   const {
     register,
     formState: { errors },
     handleSubmit,
     reset,
-  } = useForm({
+  } = useForm<IFormInput>({
     defaultValues: {
       fullname: fullname,
       salary: salary,
       email: email,
+      avatar: avatar,
     },
   });
 
   const router = useRouter();
-  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+  const onSubmit = async (data: IFormInput) => {
     if (data.avatar.length === 1) {
       const raw_avatar = data.avatar[0];
       const formData = new FormData();
