@@ -17,7 +17,6 @@ interface Employee {
 
 const UserList = async () => {
   const res = await fetch("http://localhost:3000/api/employees", {
-    next: { revalidate: 10 },
     cache: "no-store",
   });
   const employeeData: Employee[] = await res.json();

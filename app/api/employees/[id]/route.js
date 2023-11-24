@@ -10,14 +10,14 @@ export async function PUT(request, { params }) {
     newSalary: salary,
     newAvatar: avatar,
   } = await request.json();
-  await connectMongoDB;
+  await connectMongoDB();
   await Employee.findByIdAndUpdate(id, { email, fullname, salary, avatar });
   return NextResponse.json({ message: "Employee Updated" }, { status: 200 });
 }
 
 export async function GET(request, { params }) {
   const { id } = params;
-  await connectMongoDB;
-  await Employee.findOne({ _id: id });
+  await connectMongoDB();
+  const employee = await Employee.findOne({ _id: id });
   return NextResponse.json({ employee }, { status: 200 });
 }

@@ -12,9 +12,8 @@ const getEmployeeById = async (id) => {
     if (!res.ok) {
       throw new Error("No Data Available");
     } else {
-      return await res.json();
+      return res.json();
     }
-    return await res.json();
   } catch (err) {
     console.log(err);
   }
@@ -24,5 +23,14 @@ export default async function Edit({ params }) {
   console.log(id);
   const { employee } = await getEmployeeById(id);
   console.log(employee);
-  return <EditUser />;
+  const { fullname, salary, email, avatar } = employee;
+  return (
+    <EditUser
+      id={id}
+      fullname={fullname}
+      email={email}
+      salary={salary}
+      oldavatar={avatar}
+    />
+  );
 }

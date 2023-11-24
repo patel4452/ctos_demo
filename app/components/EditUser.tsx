@@ -3,36 +3,45 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 
-export default function EditUser() {
+export default function EditUser({ id, fullname, salary, email, oldavatar }) {
   const {
     register,
     formState: { errors },
     handleSubmit,
     reset,
-    getValues,
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      fullname: fullname,
+      salary: salary,
+      email: email,
+    },
+  });
 
   const router = useRouter();
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    const raw_avatar = data.avatar[0];
-    const formData = new FormData();
-    formData.append("file", raw_avatar);
-    formData.append("upload_preset", "ctosfileupload");
-    const uploadResponse = await fetch(
-      "https://api.cloudinary.com/v1_1/ddg9aginh/image/upload",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-    const uploadedImageData = await uploadResponse.json();
-    const imageUrl = uploadedImageData.secure_url;
-    console.log(imageUrl);
-    data.avatar = imageUrl;
-    console.log(JSON.stringify(data));
+    console.log(data);
+    if (!data.avatar[0]) {
+      const raw_avatar = data.avatar[0];
+      const formData = new FormData();
+      formData.append("file", raw_avatar);
+      formData.append("upload_preset", "ctosfileupload");
+      const uploadResponse = await fetch(
+        "https://api.cloudinary.com/v1_1/ddg9aginh/image/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+      const uploadedImageData = await uploadResponse.json();
+      const imageUrl = uploadedImageData.secure_url;
+      data.avatar = imageUrl;
+    } else {
+      data.avatar = oldavatar;
+    }
+
     try {
-      const res = await fetch("http://localhost:3000/api/employees", {
-        method: "POST",
+      const res = await fetch(`http://localhost:3000/api/employees/${id}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -129,7 +138,7 @@ export default function EditUser() {
         </div>
 
         <input
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           type="submit"
         />
       </form>
