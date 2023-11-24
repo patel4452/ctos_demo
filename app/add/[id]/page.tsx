@@ -1,5 +1,9 @@
 import EditUser from "@/app/components/EditUser";
-
+interface IEmployee {
+  params: {
+    id: number;
+  };
+}
 const getEmployeeById = async (id: Number) => {
   try {
     const res = await fetch(`http://localhost:3000/api/employees/${id}`, {
@@ -18,7 +22,7 @@ const getEmployeeById = async (id: Number) => {
     console.log(err);
   }
 };
-export default async function Edit({ params }) {
+export default async function Edit({ params }: IEmployee) {
   const { id } = params;
   const { employee } = await getEmployeeById(id);
   const { fullname, salary, email, avatar } = employee;
