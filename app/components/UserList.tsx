@@ -56,7 +56,9 @@ const UserList = async () => {
                 />
               </td>
               <td className="border-collapse  border-2 border-gray-500">
-                {employee.fullname}
+                {employee.fullname.length > 25
+                  ? `${employee.fullname.substring(0, 25)}...`
+                  : employee.fullname}
               </td>
               <td className="border-collapse  border-2 border-gray-500">
                 {employee.email}

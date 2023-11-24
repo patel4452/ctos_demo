@@ -19,8 +19,7 @@ export default function EditUser({ id, fullname, salary, email, oldavatar }) {
 
   const router = useRouter();
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    console.log(data);
-    if (!data.avatar[0]) {
+    if (data.avatar.length === 1) {
       const raw_avatar = data.avatar[0];
       const formData = new FormData();
       formData.append("file", raw_avatar);

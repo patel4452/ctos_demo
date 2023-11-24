@@ -20,9 +20,7 @@ const getEmployeeById = async (id) => {
 };
 export default async function Edit({ params }) {
   const { id } = params;
-  console.log(id);
   const { employee } = await getEmployeeById(id);
-  console.log(employee);
   const { fullname, salary, email, avatar } = employee;
   return (
     <EditUser

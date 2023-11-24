@@ -5,10 +5,10 @@ import Employee from "../../../../models/employee";
 export async function PUT(request, { params }) {
   const { id } = params;
   const {
-    newEmail: email,
-    newFullname: fullname,
-    newSalary: salary,
-    newAvatar: avatar,
+    email: email,
+    fullname: fullname,
+    salary: salary,
+    avatar: avatar,
   } = await request.json();
   await connectMongoDB();
   await Employee.findByIdAndUpdate(id, { email, fullname, salary, avatar });
