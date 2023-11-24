@@ -2,8 +2,21 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
-
-export default function EditUser({ id, fullname, salary, email, oldavatar }) {
+interface IFormInput {
+  email: string;
+  fullname: string;
+  salary: number;
+  avatar: string;
+  id: Number;
+  oldavatar: string;
+}
+export default function EditUser({
+  id,
+  fullname,
+  salary,
+  email,
+  oldavatar,
+}: IFormInput) {
   const {
     register,
     formState: { errors },
