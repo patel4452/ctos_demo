@@ -1,6 +1,6 @@
 import EditUser from "@/app/components/EditUser";
 
-const getEmployeeById = async (id) => {
+const getEmployeeById = async (id: Number) => {
   try {
     const res = await fetch(`http://localhost:3000/api/employees/${id}`, {
       method: "GET",
