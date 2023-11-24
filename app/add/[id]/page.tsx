@@ -32,7 +32,7 @@ export default async function Edit({ params }: IEmployee) {
       fullname={fullname}
       email={email}
       salary={salary}
-      oldavatar={avatar}
+      avatar={avatar}
     />
   );
 }

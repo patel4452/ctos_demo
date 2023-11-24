@@ -8,14 +8,13 @@ interface IFormInput {
   salary: number;
   avatar: string;
   id: Number;
-  oldavatar: string;
 }
 export default function EditUser({
   id,
   fullname,
   salary,
   email,
-  oldavatar,
+  avatar,
 }: IFormInput) {
   const {
     register,
@@ -48,7 +47,7 @@ export default function EditUser({
       const imageUrl = uploadedImageData.secure_url;
       data.avatar = imageUrl;
     } else {
-      data.avatar = oldavatar;
+      data.avatar = avatar;
     }
 
     try {
