@@ -7,7 +7,7 @@ interface IFormInput {
   email: string;
   fullname: string;
   salary: number;
-  avatar: file;
+  avatar: string;
 }
 
 export default function FormAdd() {
