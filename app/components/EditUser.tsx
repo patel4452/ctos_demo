@@ -1,22 +1,27 @@
 "use client";
 import React from "react";
 import { useRouter } from "next/navigation";
-import { useForm, SubmitHandler } from "react-hook-form";
-interface IFormInput {
+import { FieldValues, useForm, SubmitHandler } from "react-hook-form";
+import { AppProps } from "next/app";
+
+interface IFormInput extends FieldValues {
   email: string;
   fullname: string;
   salary: number;
   avatar: string;
   id: number;
 }
+
 type Data = {
-  id: number;
-  email: string;
-  fullname: string;
-  salary: number;
-  avatar: string;
+  employee: {
+    id: number;
+    email: string;
+    fullname: string;
+    salary: number;
+    avatar: string;
+  };
 };
-export default function EditUser({ id, fullname, salary, email, avatar }) {
+export default function EditUser({ employee }: Data) {
   const {
     register,
     formState: { errors },
@@ -24,15 +29,15 @@ export default function EditUser({ id, fullname, salary, email, avatar }) {
     reset,
   } = useForm<IFormInput>({
     defaultValues: {
-      fullname: fullname,
-      salary: salary,
-      email: email,
-      avatar: avatar,
+      fullname: employee.fullname,
+      salary: employee.salary,
+      email: employee.email,
+      avatar: employee.avatar,
     },
   });
 
   const router = useRouter();
-  const onSubmit = async (data: IFormInput) => {
+  const SubmitForm = async (data: IFormInput) => {
     if (data.avatar.length === 1) {
       const raw_avatar = data.avatar[0];
       const formData = new FormData();
@@ -49,12 +54,12 @@ export default function EditUser({ id, fullname, salary, email, avatar }) {
       const imageUrl = uploadedImageData.secure_url;
       data.avatar = imageUrl;
     } else {
-      data.avatar = avatar;
+      data.avatar = employee.avatar;
     }
 
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/employees/${id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/employees/${employee.id}`,
         {
           method: "PUT",
           headers: {
@@ -77,7 +82,7 @@ export default function EditUser({ id, fullname, salary, email, avatar }) {
   return (
     <div className="w-full max-w-xs">
       <form
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(SubmitForm)}
         className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
       >
         <div className="mb-4">

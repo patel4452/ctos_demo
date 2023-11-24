@@ -1,14 +1,24 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { FieldValues, useForm, SubmitHandler } from "react-hook-form";
 
-interface IFormInput {
+interface IFormInput extends FieldValues {
   email: string;
   fullname: string;
   salary: number;
   avatar: string;
 }
+
+type Data = {
+  employee: {
+    id: number;
+    email: string;
+    fullname: string;
+    salary: number;
+    avatar: string;
+  };
+};
 
 export default function FormAdd() {
   const {
@@ -17,10 +27,10 @@ export default function FormAdd() {
     handleSubmit,
     reset,
     getValues,
-  } = useForm();
+  } = useForm<IFormInput>();
 
   const router = useRouter();
-  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+  const SubmitForm = async (data: IFormInput) => {
     const raw_avatar = data.avatar[0];
     const formData = new FormData();
     formData.append("file", raw_avatar);
@@ -62,7 +72,7 @@ export default function FormAdd() {
   return (
     <div className="w-full max-w-xs">
       <form
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(SubmitForm)}
         className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
       >
         <div className="mb-4">

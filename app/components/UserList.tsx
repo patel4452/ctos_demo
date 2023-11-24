@@ -6,20 +6,18 @@ import Link from "next/link";
 import RemoveEmployee from "./DeleteUser";
 
 interface Employee {
-  employees: {
-    _id: number;
-    email: string;
-    fullname: string;
-    salary: number;
-    avatar: any;
-  };
+  id: number;
+  email: string;
+  fullname: string;
+  salary: number;
+  avatar: any;
 }
 
 const UserList = async () => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/employees`, {
     cache: "no-store",
   });
-  const employeeData: Employee[] = await res.json();
+  const employeeData = await res.json();
   const { employees } = employeeData;
 
   return (
@@ -42,10 +40,10 @@ const UserList = async () => {
           </tr>
         </thead>
         <tbody>
-          {employees.map((employee) => (
+          {employees.map((employee: Employee) => (
             <tr
               className="border-collapse  border-2 border-gray-500"
-              key={employee._id}
+              key={employee.id}
             >
               <td className="border-collapse  border-2 border-gray-500">
                 <Image
@@ -69,11 +67,11 @@ const UserList = async () => {
               <td className="border-collapse  border-2 border-gray-500">
                 <Link
                   className="font-bold cursor-pointer"
-                  href={`/add/${employee._id}`}
+                  href={`/add/${employee.id}`}
                 >
                   <EditIcon />
                 </Link>
-                <RemoveEmployee id={employee._id} />
+                <RemoveEmployee id={employee.id} />
               </td>
             </tr>
           ))}

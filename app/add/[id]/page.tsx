@@ -1,4 +1,5 @@
 import EditUser from "@/app/components/EditUser";
+
 interface IEmployee {
   params: {
     id: number;
@@ -29,13 +30,5 @@ export default async function Edit({ params }: IEmployee) {
   const { id } = params;
   const { employee } = await getEmployeeById(id);
   const { fullname, salary, email, avatar } = employee;
-  return (
-    <EditUser
-      id={id}
-      fullname={fullname}
-      email={email}
-      salary={salary}
-      avatar={avatar}
-    />
-  );
+  return <EditUser {...employee} />;
 }
