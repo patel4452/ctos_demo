@@ -30,5 +30,13 @@ export default async function Edit({ params }: IEmployee) {
   const { id } = params;
   const { employee } = await getEmployeeById(id);
   const { fullname, salary, email, avatar } = employee;
-  return <EditUser {...employee} />;
+  return (
+    <EditUser
+      id={id}
+      fullname={fullname}
+      salary={salary}
+      email={email}
+      avatar={avatar}
+    />
+  );
 }

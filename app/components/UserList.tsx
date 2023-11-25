@@ -6,7 +6,7 @@ import Link from "next/link";
 import RemoveEmployee from "./DeleteUser";
 
 interface Employee {
-  id: number;
+  _id: number;
   email: string;
   fullname: string;
   salary: number;
@@ -43,7 +43,7 @@ const UserList = async () => {
           {employees.map((employee: Employee) => (
             <tr
               className="border-collapse  border-2 border-gray-500"
-              key={employee.id}
+              key={employee._id}
             >
               <td className="border-collapse  border-2 border-gray-500">
                 <Image
@@ -67,11 +67,11 @@ const UserList = async () => {
               <td className="border-collapse  border-2 border-gray-500">
                 <Link
                   className="font-bold cursor-pointer"
-                  href={`/add/${employee.id}`}
+                  href={`/add/${employee._id}`}
                 >
                   <EditIcon />
                 </Link>
-                <RemoveEmployee id={employee.id} />
+                <RemoveEmployee id={employee._id} />
               </td>
             </tr>
           ))}

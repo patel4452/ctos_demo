@@ -13,15 +13,19 @@ interface IFormInput extends FieldValues {
 }
 
 type Data = {
-  employee: {
-    id: number;
-    email: string;
-    fullname: string;
-    salary: number;
-    avatar: string;
-  };
+  id: number;
+  email: string;
+  fullname: string;
+  salary: number;
+  avatar: string;
 };
-export default function EditUser({ employee }: Data) {
+export default function EditUser({
+  id,
+  fullname,
+  salary,
+  email,
+  avatar,
+}: Data) {
   const {
     register,
     formState: { errors },
@@ -29,10 +33,11 @@ export default function EditUser({ employee }: Data) {
     reset,
   } = useForm<IFormInput>({
     defaultValues: {
-      fullname: employee.fullname,
-      salary: employee.salary,
-      email: employee.email,
-      avatar: employee.avatar,
+      id: id,
+      fullname: fullname,
+      salary: salary,
+      email: email,
+      avatar: avatar,
     },
   });
 
@@ -54,12 +59,12 @@ export default function EditUser({ employee }: Data) {
       const imageUrl = uploadedImageData.secure_url;
       data.avatar = imageUrl;
     } else {
-      data.avatar = employee.avatar;
+      data.avatar = avatar;
     }
 
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/employees/${employee.id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/employees/${id}`,
         {
           method: "PUT",
           headers: {
