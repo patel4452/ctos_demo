@@ -1,10 +1,14 @@
 import EditUser from "@/app/components/EditUser";
+import Link from "next/link";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import Button from "@mui/material/Button";
 
 interface IEmployee {
   params: {
     id: number;
   };
 }
+
 const getEmployeeById = async (id: Number) => {
   try {
     const res = await fetch(
@@ -31,12 +35,25 @@ export default async function Edit({ params }: IEmployee) {
   const { employee } = await getEmployeeById(id);
   const { fullname, salary, email, avatar } = employee;
   return (
-    <EditUser
-      id={id}
-      fullname={fullname}
-      salary={salary}
-      email={email}
-      avatar={avatar}
-    />
+    <main className="flex min-h-screen flex-col items-center p-24">
+      <div className="flex flex-row justify-center w-6/12">
+        <Button
+          variant="contained"
+          startIcon={<ArrowBackIcon />}
+          className="btn btn-primary my-3"
+        >
+          <Link className="font-bold" href="/">
+            Go Back
+          </Link>
+        </Button>
+      </div>
+      <EditUser
+        id={id}
+        fullname={fullname}
+        salary={salary}
+        email={email}
+        avatar={avatar}
+      />
+    </main>
   );
 }
