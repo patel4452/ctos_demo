@@ -68,7 +68,7 @@ export default function FormAdd() {
       console.log(err);
     }
   };
-
+  console.log(errors.salary);
   return (
     <div className="w-full max-w-xs">
       <form
@@ -128,8 +128,12 @@ export default function FormAdd() {
                 value: 0,
                 message: "Salary should have valid numbers",
               },
+              pattern: {
+                value: /^[0-9]+$/i,
+                message: "Salary should have valid numbers",
+              },
             })}
-            ria-invalid={errors.salary ? "true" : "false"}
+            aria-invalid={errors.salary ? "true" : "false"}
           />
           {errors.salary && <p role="alert">{errors.salary.message}</p>}
         </div>
